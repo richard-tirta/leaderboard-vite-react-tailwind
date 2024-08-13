@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import type { profileData } from "./Type";
 import './App.css'
 import Data from './Data'
@@ -13,20 +13,22 @@ function App() {
     setProfiles(profiles.sort((a, b) => b.points - a.points));
   }, []);
 
-  const onPointsUpdate = (id: number, newPoints: number) => {
-    const updatedProfiles = profiles.map((profile) => {
-      if (profile.id === id) {
-        const currentPoints = profile.points;
-        return {
-          ...profile,
-          points: currentPoints + newPoints
+  const onPointsUpdate = useCallback(
+    (id: number, newPoints: number) => {
+      const updatedProfiles = profiles.map((profile) => {
+        if (profile.id === id) {
+          const currentPoints = profile.points;
+          return {
+            ...profile,
+            points: currentPoints + newPoints
+          }
         }
-      }
-      return profile;
-    });
-    
-    setProfiles(updatedProfiles.sort((a, b) => b.points - a.points));
-  }
+        return profile;
+      });
+      
+      setProfiles(updatedProfiles.sort((a, b) => b.points - a.points));
+    }, [profiles]
+  );
 
   return (
     <>

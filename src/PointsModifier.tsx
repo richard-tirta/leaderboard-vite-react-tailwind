@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import './App.css'
 
 type PointsModifierProps = {
@@ -12,11 +12,14 @@ const PointsModifier = ({onPointsUpdate, id, points}: PointsModifierProps) => {
   
   const [newPoints, setNewPoints] = useState<number | string>('');
 
-  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => { 
-    e.preventDefault();
-    onPointsUpdate(id, typeof newPoints === 'string' ? 0 : newPoints);
-    setNewPoints('');
-  }
+  const onSubmitHandler = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onPointsUpdate(id, typeof newPoints === 'string' ? 0 : newPoints);
+      setNewPoints('');
+    },
+    [id, newPoints, onPointsUpdate, points],
+  );
 
   return (
     <>

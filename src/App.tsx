@@ -7,11 +7,7 @@ import PointsModifier from './PointsModifier'
 
 function App() {
 
-  const [profiles, setProfiles] = useState<profileData>(Data);
-
-  useEffect(() => {
-    setProfiles(profiles.sort((a, b) => b.points - a.points));
-  }, []);
+  const [profiles, setProfiles] = useState<profileData>(Data.sort((a, b) => b.points - a.points));
 
   const onPointsUpdate = useCallback(
     (id: number, newPoints: number) => {
